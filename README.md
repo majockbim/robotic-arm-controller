@@ -26,12 +26,8 @@ The controller interface uses D-pad and button inputs to control the joints of t
 
 The prices and quantity of all hardware componnets, 3D-printed parts, and electronics used  in this project can be found in the following spreadsheet:
 
-[Clickk to View Full Materials List (Google Sheets)](<https://docs.google.com/spreadsheets/d/1fKG74xqfp3b54NL0HSdM__-Zx04nlzcWmwzY8FORccg/edit?usp=sharing>)
+[Click to View Full Materials List (Google Sheets)](<https://docs.google.com/spreadsheets/d/1fKG74xqfp3b54NL0HSdM__-Zx04nlzcWmwzY8FORccg/edit?usp=sharing>)
 
 ## 3D Printed Parts
 
-Based on open-source models designed by:
-
-**[<LimpSquid>](https://github.com/limpsquid>)**
-
-
+Based on open-source models designed by: **[LimpSquid](<https://github.com/limpsquid>)**
