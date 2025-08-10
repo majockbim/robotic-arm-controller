@@ -1,94 +1,78 @@
-#include <Arduino.h>
-#include "keyboard/KeyboardController.h"
+#include <Wire.h>
+#include <Adafruit_PWMServoDriver.h>
+#include "keyboardController.h"
 
-// Controller instances
-KeyboardController keyboardController;
+Adafruit_PWMServoDriver pwm = Adafruit_PWMServoDriver();
 
 // Menu state
-enum MenuState {
-    MAIN_MENU,
-    KEYBOARD_CONTROL
+enum Mode {
+    MENU,
+    KEYBOARD_CONTROL,
+    GESTURE_CONTROL
 };
 
-MenuState currentState = MAIN_MENU;
+Mode currentMode = MENU;
 
-void printMainMenu() {
-    Serial.println("");
-    Serial.println("===============================");
-    Serial.println("    SERVO CONTROLLER MENU");
-    Serial.println("===============================");
-    Serial.println("");
-    Serial.println("Available Controllers:");
-    Serial.println("1. Keyboard Controller");
-    Serial.println("2. Game Controller");
-    Serial.println("3. Gesture Controller");
-    Serial.println("");
-    Serial.println("Enter your choice (1-3):");
-    Serial.println("");
-}
-
-void handleMenuInput() {
-    if (Serial.available() > 0) {
-        char choice = Serial.read();
-        
-        switch (choice) {
-            case '1':
-                Serial.println("Starting Keyboard Controller...");
-                Serial.println("");
-                currentState = KEYBOARD_CONTROL;
-                keyboardController.init();
-                break;
-                
-            case '2':
-                Serial.println("Game Controller is not yet implemented.");
-                Serial.println("Please choose another option.");
-                delay(1000);
-                printMainMenu();
-                break;
-                
-            case '3':
-                Serial.println("Gesture Controller is not yet implemented.");
-                Serial.println("Please choose another option.");
-                delay(1000);
-                printMainMenu();
-                break;
-                
-            default:
-                Serial.println("Invalid choice. Please enter 1, 2, or 3.");
-                delay(500);
-                printMainMenu();
-                break;
-        }
-    }
+void showMainMenu() {
+    Serial.println("=== ROBOTIC ARM CONTROLLER ===");
+    Serial.println("1) Keyboard Controller");
+    Serial.println("2) Gesture Controller (not implemented yet)");
+    Serial.println("==============================");
 }
 
 void setup() {
     Serial.begin(9600);
-    
-    // Wait a moment for serial to initialize
-    delay(1000);
-    
-    Serial.println("System Initializing...");
-    delay(500);
-    
-    // Display main menu
-    printMainMenu();
+
+    // Wait for Serial Monitor (up to 2s)
+    unsigned long startTime = millis();
+    while (!Serial && (millis() - startTime < 2000)) {;}
+
+    // Init PCA9685
+    Wire.begin();
+    pwm.begin();
+    pwm.setOscillatorFrequency(27000000);
+    pwm.setPWMFreq(60); // 60 Hz for servos
+    delay(10);
+
+    Serial.println("I2C initialized successfully");
+    Serial.println();
+    showMainMenu();
 }
 
 void loop() {
-    switch (currentState) {
-        case MAIN_MENU:
-            handleMenuInput();
-            break;
-            
-        case KEYBOARD_CONTROL:
-            // Run keyboard controller, if it returns false, return to menu
-            if (!keyboardController.update()) {
-                currentState = MAIN_MENU;
-                printMainMenu();
+    switch (currentMode) {
+        case MENU:
+            if (Serial.available()) {
+                char choice = Serial.read();
+                switch (choice) {
+                    case '1':
+                        Serial.println("Keyboard Controller selected.");
+                        currentMode = KEYBOARD_CONTROL;
+                        startKeyboardController(pwm);
+                        break;
+                    case '2':
+                        Serial.println("Gesture Controller not implemented yet.");
+                        showMainMenu();
+                        break;
+                    default:
+                        Serial.println("Invalid option.");
+                        showMainMenu();
+                        break;
+                }
             }
             break;
+
+        case KEYBOARD_CONTROL:
+            if (runKeyboardController()) { // true means go back to menu
+                currentMode = MENU;
+                showMainMenu();
+            }
+            break;
+
+        case GESTURE_CONTROL:
+            Serial.println("Gesture control mode placeholder.");
+            currentMode = MENU;
+            showMainMenu();
+            break;
     }
-    
-    delay(50);  // Small delay to prevent overwhelming the system
 }

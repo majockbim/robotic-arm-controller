@@ -3,18 +3,23 @@
 Control a 3D-printed robotic arm using **two different input methods**:
 
 - **Hand Gestures Picked up by your Camera**
-- **Standard Game Controller (e.g. PlayStation Controller)**
+- **Standard Keyboard Controller**
 
-To be built in C++. Purpose is to apply code to the 'real world.'
+Purpose is to apply code to the 'real world.' E.g. Industrial Robots.
 
 ---
 
 ## Control Modes
 
 ## Hand Gesture Controller
-Uses a webcame to interpret hand gestures and translate them into arm movements.
+Uses a webcam to interpret hand gestures and translate them into arm movements.
 
-- **Library used**:
+# Keyboard Controller
+Detects keyboard input and deploys the information that moves the robotic arm. 
+
+- **Requirements**:
+PlatformIO IDE
+
 
 ## Game Controller
 The controller interface uses D-pad and button inputs to control the joints of the robotic arm in real time.
@@ -31,7 +36,3 @@ Prices and quantity of all hardware componets, 3D-printed parts, and electronics
 ## 3D Printed Parts
 
 Based on open-source models designed by: **[LimpSquid](<https://github.com/limpsquid>)**
-
-## Project Structure
-
-undetermined 
