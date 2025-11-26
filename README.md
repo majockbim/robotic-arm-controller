@@ -91,8 +91,7 @@ This will:
 ---
 
 # Demo Video (Gesture Controller)
-
-(insert here)
+https://github.com/user-attachments/assets/9c3fa7d9-e886-4472-a17c-4c64cd100721
 ---
 
 # **Requirements**:
