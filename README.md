@@ -2,36 +2,109 @@
 
 Control a 3D-printed robotic arm using **two different input methods**:
 
-- **Hand Gestures Picked up by your Camera**
-- **Standard Keyboard Controller**
+- **Hand Gestures Controller (OpenCV)**
+- **Keyboard Controller (Serial Monitor)**
 
-Purpose is to apply code to the 'real world.' E.g. Industrial Robots.
-
+This project applies embedded systems and computer vision to control a physical robotic arm in real time.
 ---
 
-## Control Modes
+# Project Structure
+robotic-arm-controller
+├── include
+│   └── keyboardController.h
+│
+├── opencv_controller
+│   ├── CMakeLists.txt
+│   ├── gestureController.cpp
+│   ├── gestureController.h
+│   ├── serial.cpp
+│   ├── serial.h
+│   ├── .vscode
+│   └── src
+│       └── main.cpp
+│
+├── platformio.ini
+│
+└── src
+    ├── output
+    ├── keyboardController.cpp
+    └── main.cpp
+---
 
-## Hand Gesture Controller
-Uses a webcam to interpret hand gestures and translate them into arm movements.
+# How to Run
 
-# Keyboard Controller
-Detects keyboard input and deploys the information that moves the robotic arm. 
+## 1. Flash the Arduino (Main Controller)
 
-- **Requirements**:
-PlatformIO IDE
+**Build / Compile**
+Using PlatformIO:
+'''
+pio run
+'''
+Upload to Arduino
+'''
+pio run --target upload
+'''
+Open Serial Monitor
+'''
+pio device monitor
+'''
 
+You will be asked to pick a mode:
+- Keyboard Controller
+- Gesture Controller
 
-## Game Controller
-The controller interface uses D-pad and button inputs to control the joints of the robotic arm in real time.
+## Keyboard Controller Mode
 
-- **Uses OpenCV**
-- gesture control to be determined 
+If you select **Keyboard Controller**:
+- Stay in the PlatformIO Serial Monitor
+- Press keys to move the robotic arm joints
+- Commands are sent directly to the Arduino through serial
 
-## Materials and Hardware
+## Gesture Controller Mode (OpenCV)
 
-Prices and quantity of all hardware componets, 3D-printed parts, and electronics used  in this project can be found in the following spreadsheet:
+If you select **Gesture Controller**, then:
 
-[Click to View Full Materials List (Google Sheets)](<https://docs.google.com/spreadsheets/d/1fKG74xqfp3b54NL0HSdM__-Zx04nlzcWmwzY8FORccg/edit?usp=sharing>)
+1. Close the PlatformIO serial monitor
+(the OpenCV program needs the serial port)
+2. Build the OpenCV gesture controller:
+'''
+cd opencv_controller
+mkdir build
+cd build
+cmake ..
+cmake --build . --config Release
+'''
+
+3. Run the gesture controller executable:
+'''
+.\Release\opencv_controller.exe
+'''
+
+This will:
+
+- Open your webcam
+- Detect hand poses
+- Translate gestures into servo commands
+- Send commands to the Arduino over serial
+---
+
+# Demo Video (Gesture Controller)
+
+(insert here)
+---
+
+## **Requirements**:
+
+## Arduino Controller
+- PlatformIO IDE
+
+## OpenCV Gesture Controller
+- CMake
+- OpenCV
+
+## Materials Hardware
+- Prices and quantity of all hardware componets, 3D-printed parts, and electronics used  in this project can be found in the following spreadsheet: [Click to View Full Materials List (Google Sheets)](<https://docs.google.com/spreadsheets/d/1fKG74xqfp3b54NL0HSdM__-Zx04nlzcWmwzY8FORccg/edit?usp=sharing>)
+---
 
 ## 3D Printed Parts
 
