@@ -6,6 +6,7 @@ Control a 3D-printed robotic arm using **two different input methods**:
 - **Keyboard Controller (Serial Monitor)**
 
 This project applies embedded systems and computer vision to control a physical robotic arm in real time.
+
 ---
 
 # Project Structure
